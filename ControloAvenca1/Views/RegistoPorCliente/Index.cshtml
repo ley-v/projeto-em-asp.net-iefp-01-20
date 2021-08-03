@@ -1,0 +1,103 @@
+﻿@model ControloAvenca1.ViewModel.ClientePagamentos
+<br />
+<h4>Lista os Registos de Pagamento do cliente selecionado.</h4>
+<br />
+
+<style>
+    .gradient {
+        /*background-color: linear-gradient(to right, #d74177, #ffe98a);*/
+        /*background-image: linear-gradient(to right, #d74177, #ffe98a);*/
+        max-width: 250px;
+        padding: 1rem;
+        color: white;
+        border-width: 3px;
+        border-style: solid;
+        /*border-image: linear-gradient( to bottom, red, rgba(0, 0, 0, 0) ) 1 100%;*/
+    }
+</style>
+
+<table class="table table-striped table-hover">
+
+    <thead class="table-dark"><tr>        <th>            <label>Cliente</label>        </th>        <th></th>    </tr> </thead>
+
+    @foreach (var item in Model.Clientes)
+    {
+        string selectedRow = "";
+        if (item.Id == ViewBag.CLIENTECLICADO) { selectedRow = "success"; }
+        <tr class="@selectedRow">
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.ActionLink("Selecionar", "Index", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>
+
+<hr @*class="gradient";*@ style="border-color:orangered ; border-width:5px;" />
+<p>
+    @Html.ActionLink("Criar novo registo", "Create")
+</p>
+
+<table class="table table-striped table-hover">
+    <thead class="table-light">
+        <tr>
+            <th>            <label>Id</label>        </th>
+            <th>            <label>Data</label>                 </th>
+            <th>            <label>Descrição</label>        </th>
+            <th>            <label>Valor</label>        </th>
+            <th>            <label>Mês</label>        </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model.RegistoPagamentos)
+    {
+        if (item.ClienteId == ViewBag.CLIENTECLICADO)
+        {
+            <tr>
+                <td>@item.Id </td>
+                <td>@item.Data </td>
+                <td>@item.Descricao </td>
+                <td>@item.Valor </td>
+                @foreach (var item2 in Model.Meses)
+                {
+                    if (item2.Id == item.MesId)
+                    {
+                        <td>@item2.MesDesginacao </td>
+                    }
+                }
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id })
+                </td>
+
+            </tr>
+        }
+    }
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
